@@ -4,6 +4,8 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import com.aldebaran.qi.Application;
+import com.aldebaran.qi.Session;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,12 +26,11 @@ public class Layout extends AppCompatActivity {
     public int count = 0;
     public long pause =0;
     public long millis;
-
-
+    public Say say;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //何分のタイマー？
-        final long Timer=from_min_to_msec(5);
+        final long Timer=from_min_to_msec(1);
         setTitle("PepperTimer");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
@@ -49,7 +50,7 @@ public class Layout extends AppCompatActivity {
         final CountDown[] countDown = {new CountDown(Timer)};
 
 
-        final Say say = new Say(this);
+         say= new Say(this);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +137,7 @@ public class Layout extends AppCompatActivity {
             // timerText.setText("0:00.000");
             startButton.setVisibility(View.INVISIBLE);
             timerText.setText(String.format("終わりだよ！"));
-
+            say.run("おわりました");
         }
         public final Long getCount()
         {
