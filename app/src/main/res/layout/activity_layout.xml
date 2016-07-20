@@ -19,13 +19,13 @@
         android:text="Start"
         android:id="@+id/start_button"
         android:layout_margin="10dp"
-        android:layout_width="match_parent"
+        android:layout_width="208dp"
         android:layout_height="wrap_content" />
 
     <Button
         android:text="Restart"
         android:id="@+id/stop_button"
         android:layout_margin="10dp"
-        android:layout_width="match_parent"
+        android:layout_width="195dp"
         android:layout_height="wrap_content" />
 </LinearLayout>

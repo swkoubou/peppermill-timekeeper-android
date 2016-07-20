@@ -35,11 +35,12 @@ public class Layout extends AppCompatActivity {
         startButton = (Button)findViewById(R.id.start_button);
         stopButton = (Button)findViewById(R.id.stop_button);
 
-
+        startButton.setWidth(200);
+        startButton.setHeight(50);
 
         timerText = (TextView)findViewById(R.id.timer);
-        timerText.setText("5:00.000");
-
+        timerText.setTextSize(timerText.getTextSize()*1.5f);
+        timerText.setText("05:00");
 
         // インスタンス生成
         // CountDownTimer(long millisInFuture, long countDownInterval)
@@ -94,7 +95,9 @@ public class Layout extends AppCompatActivity {
                 countDown[0].cancel();
                 countDown[0] = new CountDown(300000, 100);
 
-                timerText.setText("5:00.000");
+                startButton.setText("start");
+
+                timerText.setText("05:00");
 
             }
         });
@@ -104,8 +107,6 @@ public class Layout extends AppCompatActivity {
          public long countMillis = -1;
         public CountDown(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
-
-
         }
 
 
@@ -119,7 +120,8 @@ public class Layout extends AppCompatActivity {
             long ss = millisUntilFinished / 1000 % 60;
             long ms = millisUntilFinished - ss * 1000 - mm * 1000 * 60;
             millis=millisUntilFinished;
-            timerText.setText(String.format("%1$02d:%2$02d.%3$03d", mm, ss, ms));
+            timerText.setText(String.format("%1$02d:%2$02d", mm, ss));
+//            timerText.setText(String.format("%1$02d:%2$02d.%3$03d", mm, ss, ms));
         }
         @Override
         public void onFinish() {
