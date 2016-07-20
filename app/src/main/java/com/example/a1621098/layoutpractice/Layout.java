@@ -28,6 +28,8 @@ public class Layout extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //何分のタイマー？
+        final long Timer=from_min_to_msec(5);
         setTitle("PepperTimer");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
@@ -35,17 +37,16 @@ public class Layout extends AppCompatActivity {
         startButton = (Button)findViewById(R.id.start_button);
         stopButton = (Button)findViewById(R.id.stop_button);
 
-        startButton.setWidth(200);
-        startButton.setHeight(50);
 
         timerText = (TextView)findViewById(R.id.timer);
         timerText.setTextSize(timerText.getTextSize()*1.5f);
         timerText.setText("05:00");
 
+
         // インスタンス生成
         // CountDownTimer(long millisInFuture, long countDownInterval)
         // 3分= 3x60x1000 = 180000 msec
-        final CountDown[] countDown = {new CountDown(300000, 100)};
+        final CountDown[] countDown = {new CountDown(Timer)};
 
 
         final Say say = new Say(this);
@@ -60,8 +61,10 @@ public class Layout extends AppCompatActivity {
                 if(count%2==1) {
                     say.run("スタート");
                     // 開始
-                    if(count > 1){ countDown[0] = new CountDown(pause, 100);countDown[0].start();}
-                    else{countDown[0].start();}
+                    if(count > 1) {
+                        countDown[0] = new CountDown(pause);
+                        countDown[0].start();
+                    }else{countDown[0].start();}
 
 
                     Button startButton = (Button) v;
@@ -84,7 +87,7 @@ public class Layout extends AppCompatActivity {
 
             }
         });
-
+        //タイマーリセット
         stopButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -93,25 +96,29 @@ public class Layout extends AppCompatActivity {
                 say.run("リセットするお");
                 // 中止
                 countDown[0].cancel();
-                countDown[0] = new CountDown(300000, 100);
+                countDown[0] = new CountDown(Timer);
 
                 startButton.setText("start");
 
                 timerText.setText("05:00");
+                startButton.setVisibility(View.VISIBLE);
 
             }
         });
     }
+    public  long  from_min_to_msec(long min){
+        return min*60*1000;
+    }
 
     class CountDown extends CountDownTimer {
          public long countMillis = -1;
-        public CountDown(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
+        //時計関係のやつ　
+        public CountDown(long millisInFuture) {
+            super(millisInFuture, 100);
         }
 
-
-
         // インターバルで呼ばれる
+
         @Override
         public void onTick(long millisUntilFinished) {
             // 残り時間を分、秒、ミリ秒に分割
@@ -127,6 +134,7 @@ public class Layout extends AppCompatActivity {
         public void onFinish() {
             // 完了
             // timerText.setText("0:00.000");
+            startButton.setVisibility(View.INVISIBLE);
             timerText.setText(String.format("終わりだよ！"));
 
         }
