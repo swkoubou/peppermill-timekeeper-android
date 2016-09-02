@@ -1,4 +1,4 @@
-package com.example.a1621098.PepperTimer;
+package com.swkoubou.peppermill;
 
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
