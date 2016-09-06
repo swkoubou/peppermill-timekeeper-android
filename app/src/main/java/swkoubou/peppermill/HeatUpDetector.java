@@ -8,6 +8,7 @@ public class HeatUpDetector {
     private Recorder meetingRecorder = null;
     private String sampleFilePath = "/data/data/swkoubou.peppermill/audiorecordtest.3gp";
     private String wavFilePath = "/data/data/swkoubou.peppermill/audiorecordtest.wav";
+    private String serverUrl = "http://localhost:5000/analyze";
 
     public void start() {
         meetingRecorder = new Recorder(sampleFilePath);
@@ -23,6 +24,14 @@ public class HeatUpDetector {
 
             }
         });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //do post
+                HeatUpPost heatUpPost = new HeatUpPost(serverUrl);
+                String response_string = heatUpPost.uploadFile(swkoubou.peppermill.HeatUpDetector.this, wavFilePath);
+            }
+        }).start();
         // Recorder.onStop()
         // audio_file_3gp = Recorder.getFile()
         // audio_file_wav = ConvertWAV.convert(audio_file_3gp)
