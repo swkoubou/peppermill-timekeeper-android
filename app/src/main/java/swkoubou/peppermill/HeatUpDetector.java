@@ -36,32 +36,25 @@ public class HeatUpDetector {
 
             }
         });
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 //do post
                 HeatUpPost heatUpPost = new HeatUpPost(serverUrl);
                 String response_string = heatUpPost.uploadFile(context, wavFilePath);
+                Log.d(LOG_TAG, response_string);
                 try {
                     JSONObject heatupResult = new JSONObject(response_string);
-                    Log.d(LOG_TAG, heatupResult.getString("is_burn"));
-                    if (heatupResult.getBoolean("is_burn")) {
-                        Log.d(LOG_TAG, "ture");
+                    if (heatupResult.getBoolean("is_burst")) {
+                        Log.d(LOG_TAG, "burning");
                     } else {
-                        Log.d(LOG_TAG, "false");
+                        Log.d(LOG_TAG, "nothing");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-        // Recorder.onStop()
-        // audio_file_3gp = Recorder.getFile()
-        // audio_file_wav = ConvertWAV.convert(audio_file_3gp)
-        // HeatUpPost.uploadFile(audio_file_wav)
-        // if (HeatUpPost.isHeatUp()) {
-        //     Animations.HeatUp()
-        // }
-        // pass
     }
 }
