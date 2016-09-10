@@ -3,6 +3,9 @@ package swkoubou.peppermill;
 import android.content.Context;
 import android.util.Log;
 
+import com.aldebaran.qi.sdk.object.actuation.Animate;
+import com.aldebaran.qi.sdk.object.actuation.Animation;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +51,9 @@ public class HeatUpDetector {
                     JSONObject heatupResult = new JSONObject(response_string);
                     if (heatupResult.getBoolean("is_burst")) {
                         Log.d(LOG_TAG, "burning");
+                        Animation heatUpAnimation = Animations.HeatUp(context);
+                        Animate animate = new Animate(context);
+                        animate.run(heatUpAnimation);
                     } else {
                         Log.d(LOG_TAG, "nothing");
                     }
