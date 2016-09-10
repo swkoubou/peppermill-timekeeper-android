@@ -19,7 +19,7 @@ public class HeatUpDetector {
     private String wavFilePath = "/data/data/swkoubou.peppermill/audiorecordtest.wav";
     private String serverUrl = "http://10.0.2.2:5000/analyze";
     private static final String LOG_TAG = "HeatUpDetector";
-    Context context = null;
+    static Context context = null;
 
     HeatUpDetector(Context c) {
         context = c;
@@ -63,4 +63,6 @@ public class HeatUpDetector {
             }
         }).start();
     }
+
+
 }
