@@ -7,7 +7,9 @@ import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -38,10 +40,12 @@ public class HeatUpPost {
         try {
             //------------------ CLIENT REQUEST
             AssetManager assetManager = context.getAssets();
-            AssetFileDescriptor assetFileDescriptor = assetManager.openFd("sample.wav");
-            FileInputStream stream = assetFileDescriptor.createInputStream();
+            //AssetFileDescriptor assetFileDescriptor = assetManager.openFd(existingFileName);
+            //FileInputStream stream = assetFileDescriptor.createInputStream();
 
-            FileInputStream fileInputStream = stream;
+            //FileInputStream fileInputStream = stream;
+
+            FileInputStream fileInputStream = new FileInputStream(existingFileName);
 
             // open a URL connection to the Servlet
             URL url = new URL(this.url);

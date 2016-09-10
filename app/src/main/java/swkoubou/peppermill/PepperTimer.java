@@ -80,9 +80,13 @@ public class PepperTimer extends AppCompatActivity {
 
     class CountDown extends CountDownTimer {                    //タイマーのクラス
         public long countMillis = -1;
+        HeatUpDetector heatupdetector = null;
         //時計関係のやつ　
         public CountDown(long millisInFuture) {
+
             super(millisInFuture, 100);
+            heatupdetector = new HeatUpDetector(PepperTimer.this);
+            heatupdetector.start();
         }
 
         @Override
@@ -98,6 +102,7 @@ public class PepperTimer extends AppCompatActivity {
         }
         @Override
         public void onFinish() {                                //残り時間０の時
+            heatupdetector.stop();
             startButton.setVisibility(View.INVISIBLE);
             timerText.setText(String.format("終わりだよ！"));
             say.run("おわりました");
