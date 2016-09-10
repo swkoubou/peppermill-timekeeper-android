@@ -14,10 +14,10 @@ import org.json.JSONObject;
  */
 
 public class HeatUpDetector {
-    private static Recorder meetingRecorder = null;
-    private static String sampleFilePath = "/data/data/swkoubou.peppermill/audiorecordtest.3gp";
-    private static String wavFilePath = "/data/data/swkoubou.peppermill/audiorecordtest.wav";
-    private static String serverUrl = "http://10.0.2.2:5000/analyze";
+    private Recorder meetingRecorder = null;
+    private String sampleFilePath = "/data/data/swkoubou.peppermill/audiorecordtest.3gp";
+    private String wavFilePath = "/data/data/swkoubou.peppermill/audiorecordtest.wav";
+    private String serverUrl = "http://10.0.2.2:5000/analyze";
     private static final String LOG_TAG = "HeatUpDetector";
     static Context context = null;
 
@@ -25,12 +25,12 @@ public class HeatUpDetector {
         context = c;
     }
 
-    public static void start() {
+    public void start() {
         meetingRecorder = new Recorder(sampleFilePath);
         meetingRecorder.start();
     }
 
-    public static void stop() {
+    public void stop() {
         meetingRecorder.stop();
         Convert3gpToWAV convert3gptowav = new Convert3gpToWAV(context);
         convert3gptowav.convert(sampleFilePath, wavFilePath, new Runnable() {
@@ -63,4 +63,6 @@ public class HeatUpDetector {
             }
         }).start();
     }
+
+
 }
