@@ -26,4 +26,5 @@ dependencies {
     compile 'com.aldebaran:libqi-java-android:sdk-2016-05-16'
     compile 'com.aldebaran:qisdk:0.7'
     compile 'com.aldebaran:qichatplayer:1.0.1'
+    compile 'com.writingminds:FFmpegAndroid:0.3.2'
 }
