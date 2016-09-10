@@ -39,10 +39,12 @@ public class PepperTimer extends AppCompatActivity {
             }
             private void bunki(int count){
                 if(count%2==1) {// 開始
+                    HeatUpDetector.start();
                     bunki2(count);
                     say.run("スタート");
                     startButton.setText("pause");
                 }else if(count%2==0){               //一時停止
+
                     pause=millis;
                     say.run("停止");
                     countDown[0].cancel();
@@ -60,6 +62,7 @@ public class PepperTimer extends AppCompatActivity {
         stopButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
                 count=0;
                 millis=0;
                 say.run("リセットするお");
@@ -86,7 +89,7 @@ public class PepperTimer extends AppCompatActivity {
 
             super(millisInFuture, 100);
             heatupdetector = new HeatUpDetector(PepperTimer.this);
-            heatupdetector.start();
+
         }
 
         @Override
@@ -96,13 +99,16 @@ public class PepperTimer extends AppCompatActivity {
             long mm = millisUntilFinished / 1000 / 60;
             long ss = millisUntilFinished / 1000 % 60;
             long ms = millisUntilFinished - ss * 1000 - mm * 1000 * 60;
+
             millis=millisUntilFinished;
             timerText.setText(String.format("%1$02d:%2$02d", mm, ss));
+            if(ss%5==0){
+                HeatUpDetector.stop();
+            }
             //timerText.setText(String.format("%1$02d:%2$02d.%3$03d", mm, ss, ms));
         }
         @Override
         public void onFinish() {                                //残り時間０の時
-            heatupdetector.stop();
             startButton.setVisibility(View.INVISIBLE);
             timerText.setText(String.format("終わりだよ！"));
             say.run("おわりました");
