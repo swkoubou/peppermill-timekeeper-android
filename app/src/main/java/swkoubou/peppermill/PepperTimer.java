@@ -9,12 +9,14 @@ import android.widget.TextView;
 import com.aldebaran.qi.sdk.object.interaction.Say;
 
 public class PepperTimer extends AppCompatActivity {
+    public int i=0;
     private Button startButton, stopButton;
     private TextView timerText;
     public int count = 0;
     public long pause =0;
     public long millis;
     public Say say;
+    public  HeatUpDetector heatupdetector = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -39,10 +41,12 @@ public class PepperTimer extends AppCompatActivity {
             }
             private void bunki(int count){
                 if(count%2==1) {// 開始
+                   // heatupdetector.start();
                     bunki2(count);
                     say.run("スタート");
                     startButton.setText("pause");
                 }else if(count%2==0){               //一時停止
+                    heatupdetector.stop();
                     pause=millis;
                     say.run("停止");
                     countDown[0].cancel();
@@ -60,6 +64,7 @@ public class PepperTimer extends AppCompatActivity {
         stopButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                heatupdetector.stop();
                 count=0;
                 millis=0;
                 say.run("リセットするお");
@@ -80,7 +85,7 @@ public class PepperTimer extends AppCompatActivity {
 
     class CountDown extends CountDownTimer {                    //タイマーのクラス
         public long countMillis = -1;
-        HeatUpDetector heatupdetector = null;
+       // HeatUpDetector heatupdetector = null;
         //時計関係のやつ　
         public CountDown(long millisInFuture) {
 
@@ -93,11 +98,21 @@ public class PepperTimer extends AppCompatActivity {
         public void onTick(long millisUntilFinished) {          //残り時間の表示
             // 残り時間を分、秒、ミリ秒に分割
 
+            i++;
             long mm = millisUntilFinished / 1000 / 60;
             long ss = millisUntilFinished / 1000 % 60;
-            long ms = millisUntilFinished - ss * 1000 - mm * 1000 * 60;
+            //long ms = millisUntilFinished - ss * 1000 - mm * 1000 * 60;
             millis=millisUntilFinished;
             timerText.setText(String.format("%1$02d:%2$02d", mm, ss));
+            if(i==4) {
+                heatupdetector.stop();
+                //  heatupdetector.start();
+            }
+            if(i==5){
+                heatupdetector.start();
+                i=0;
+            }
+
             //timerText.setText(String.format("%1$02d:%2$02d.%3$03d", mm, ss, ms));
         }
         @Override
